@@ -1,0 +1,52 @@
+B.	How will you go about building a front-end development project from scratch using vue/react? 
+
+I follow the atomic design for every project built by me.
+It'll have those folders:
+
+* components
+    - It's atoms components
+    - we storage here all dumb components for re-use
+    - like alert, notification, loading, custom master components, modal, ...
+* molecules
+    - includes everything bigger than components like input with label, with error text, with validator, ...
+    - It'll have components with some logic larger components have and includes some things specials
+* template
+    - called by pages
+    - can call some and multiple inside molecules or components
+* pages
+    - usually for router import with 1st level
+    - includes everything inside template/molecules/components for adapt the user story
+* layout
+    - in here, we defined all grouping feature can use some same logic.
+    - place router-view, control all child view
+
+* plugins:
+    - setup all pre-condition, pre-data like token, settings, ...
+* router:
+    - config all router as modularization
+    - most important is lazy import here
+    - setting guard here for each roles, permissions
+* helper
+    - we using for write all common pure function for whole project.
+    - some function like convert number, time, format everything, ...
+* langs
+    - setup file for multiple languages (i18n)
+    - defined each json file per language.
+* assets
+    - storage all svg, image, logo, font, ...
+* style
+    - define all style of components to pages
+    - all global and local component defined here
+* storage
+    - store management here
+    - define all global things to pass data between other components.
+    - most used: vuex (Vue) or mobx (React)
+* models
+    - define interface here
+* config
+    - defined all constants of projects
+* api
+    - using for write all function call to other system
+    - config http services, interceptor, common follow to handle
+
+.env file for config each environments with other variable

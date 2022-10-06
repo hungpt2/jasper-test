@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<div class="container">
+  <div class="wrapper">
+    <div class="author card">
+      <label class="author-title card-title">Author</label>
+      <div class="author-detail">
+        <div>Developed by: <b>Pham Tien Hung</b></div>
+        <div>Email: <b>phhung93@gmail.com</b></div>
+        <div>Mobile: <b>(+84)38 743 1613</b></div>
+      </div>
+    </div>
+
+    <div class="settings card">
+      <label class="card-title">Settings</label>
+      <div class="card-body">
+        <form class="form">
+          <div class="form-field col-span-2">
+            <label class="form-field-label">Modal width:</label>
+            <input type="number" min="100" max="1280" id="form-max-width" />
+          </div>
+          <div class="form-field">
+            <label class="form-field-label">Modal title:</label>
+            <input type="text" id="form-modal-title" />
+          </div>
+          <div class="form-field">
+            <label class="form-field-label">Modal content:</label>
+            <textarea id="form-modal-content"></textarea>
+          </div>
+          <div class="form-field inline">
+            <label class="form-field-label">Modal title color:</label>
+            <input type="color" id="form-modal-title-color" />
+          </div>
+          <div class="form-field inline">
+            <label class="form-field-label">Modal title background:</label>
+            <input type="color" id="form-modal-title-bg" />
+          </div>
+          <div class="form-field inline">
+            <label class="form-field-label">Modal content color:</label>
+            <input type="color" id="form-modal-content-color" />
+          </div>
+          <div class="form-field inline">
+            <label class="form-field-label">Modal content background:</label>
+            <input type="color" id="form-modal-content-bg" />
+          </div>
+          <div class="form-field inline">
+            <label class="form-field-label">Show reject button:</label>
+            <input type="checkbox" id="form-show-reject" />
+          </div>
+          <div class="form-field inline">
+            <label class="form-field-label">Show confirm button:</label>
+            <input type="checkbox" id="form-show-confirm" />
+          </div>
+          <div class="form-field">
+            <label class="form-field-label">Reject text:</label>
+            <input type="text" id="form-reject-btn" />
+          </div>
+          <div class="form-field">
+            <label class="form-field-label">Confirm text:</label>
+            <input type="text" id="form-confirm-btn" />
+          </div>
+          <div class="form-field">
+            <label class="form-field-label">Callback Reject:</label>
+            <textarea type="text" id="form-cb-reject" ></textarea>
+          </div>
+          <div class="form-field">
+            <label class="form-field-label">Callback confirm:</label>
+            <textarea type="text" id="form-cb-confirm" ></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="settings card">
+      <label class="card-title">Preview</label>
+      <div class="card-body preview-box">
+        <button class="button" onclick="onTest()">Launch Modal</button>
+      </div>
+    </div>
+
+    <div id="modal" class="modal fade">
+      <div id="modal-wrapper" class="modal-wrapper">
+        <div class="modal-title" id="modal-title">
+          <div class="modal-title-text" id="modal-title-text">Title</div>
+          <div class="close-btn" onclick="onClose()"></div>
+        </div>
+        <div class="modal-body" id="modal-body"></div>
+        <div class="modal-footer" id="modal-footer">
+          <button id="reject-button" class="button reject-button" onclick="onCancel()"></button>
+          <button id="confirm-button" class="button confirm-button" onclick="onConfirm()"></button>
+        </div>
+      </div>
+    </div>
+    <div id="modal-backdrop" class="modal-backdrop fade" onclick="onClose()"></div>
+  </div>
+</div>
+
+<script>
+function onTest() {
+  // setup
+  console.log('max-width', (document.getElementById('form-max-width').value || 1280) + 'px');
+  document.getElementById('modal-wrapper').style.maxWidth = (document.getElementById('form-max-width').value || 1280) + 'px';
+  document.getElementById('modal-title-text').innerHTML = document.getElementById('form-modal-title').value;
+  document.getElementById('modal-body').innerHTML = document.getElementById('form-modal-content').value;
+
+  document.getElementById('modal-title-text').style.color = document.getElementById('form-modal-title-color').value;
+  document.getElementById('modal-title').style.backgroundColor = document.getElementById('form-modal-title-bg').value;
+  document.getElementById('modal-body').style.color = document.getElementById('form-modal-content-color').value;
+  document.getElementById('modal-body').style.backgroundColor = document.getElementById('form-modal-content-bg').value;
+
+  document.getElementById('reject-button').style.display = document.getElementById('form-show-reject').checked ? 'block' : 'none';
+  document.getElementById('confirm-button').style.display = document.getElementById('form-show-confirm').checked ? 'block' : 'none';
+  document.getElementById('modal-footer').style.display = document.getElementById('form-show-confirm').checked || document.getElementById('form-show-reject').checked ? 'flex' : 'none';
+
+  document.getElementById('reject-button').innerHTML = document.getElementById('form-reject-btn').value;
+  document.getElementById('confirm-button').innerHTML = document.getElementById('form-confirm-btn').value;
+
+  // show
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modal-backdrop').classList.add('show');
+}
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+  // set default here
+  document.getElementById('form-max-width').value = 400;
+  document.getElementById('form-modal-title').value = 'Title';
+  document.getElementById('form-modal-content').value = 'Content';
+
+  document.getElementById('form-modal-title-color').value = '#212529';
+  document.getElementById('form-modal-title-bg').value = '#ffffff';
+  document.getElementById('form-modal-content-color').value = '#212529';
+  document.getElementById('form-modal-content-bg').value = '#ffffff';
+
+  document.getElementById('form-show-confirm').checked = true;
+  document.getElementById('form-show-reject').checked = true;
+  document.getElementById('form-confirm-btn').value = 'Confirm';
+  document.getElementById('form-reject-btn').value = 'Cancel';
+  document.getElementById('form-cb-reject').value = 'alert("reject")';
+  document.getElementById('form-cb-confirm').value = 'alert("confirm")';
+});
+
+function onCancel() {
+  if (document.getElementById('form-cb-reject').value) {
+    eval(document.getElementById('form-cb-reject').value);
+  }
+  document.getElementById('modal').classList.remove('show');
+  document.getElementById('modal-backdrop').classList.remove('show');
+};
+function onClose() {
+  document.getElementById('modal').classList.remove('show');
+  document.getElementById('modal-backdrop').classList.remove('show');
+};
+function onConfirm() {
+  if (document.getElementById('form-cb-confirm').value) {
+    eval(document.getElementById('form-cb-confirm').value);
+  }
+  document.getElementById('modal').classList.remove('show');
+  document.getElementById('modal-backdrop').classList.remove('show');
+};
+</script> 
+
+<style>
+  * {
+    font-family: sans-serif;
+    box-sizing: border-box;
+  }
+  .container {
+    max-width: 900px;
+    margin: 24px auto;
+  }
+  .card {
+    border-radius: 4px;
+    padding: 12px;
+    border: 1px solid gray;
+  }
+  .card-title {
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 16px;
+    margin-top: -20px;
+    padding: 0 8px;
+    position: absolute;
+    background-color: white;
+  }
+  .author-detail > div {
+    margin-top: 12px;
+  }
+  .settings {
+    margin-top: 24px;
+  }
+  .col-span-2 {
+    grid-column: span 2/span 2;
+  }
+  .form {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 18px;
+    margin-top: 12px;
+  }
+  .form input[type=number],
+  .form input[type=text],
+  .form textarea {
+    width: 100%;
+  }
+  .form-field:not(.inline) .form-field-label {
+    display: block;
+  }
+  .form-field-label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+  .preview-box {
+    text-align: center;
+  }
+  
+  .fade {
+    opacity: 0;
+    transition: opacity .15s linear;
+  }
+  .fade.show {
+    display: block;
+    opacity: 1;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20;
+  }
+  .modal-wrapper {
+    max-width: 400px;
+    margin: 48px auto;
+    transition: transform .3s ease-out;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+  }
+  .modal.show {
+    display: block;
+  }
+  .modal-backdrop.show {
+    display: block;
+    opacity: 0.5;
+  }
+  .modal-title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-bottom: 1px solid #e9ecef;
+    padding: 16px;
+    line-height: 30px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #212529;
+  }
+  .modal-title-text {
+    flex-grow: 1;
+  }
+  .modal-body {
+    padding: 16px;
+    line-height: 24px;
+    font-size: 16px;
+    font-weight: 400;
+    color: #212529;
+  }
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+    border-top: 1px solid #e9ecef;
+    color: #212529;
+  }
+  .button {
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: 6px 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .confirm-button {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #fff;
+  }
+  .close-btn {
+    cursor: pointer;
+  }
+  .close-btn:after{
+    display: inline-block;
+    content: "\00d7";
+  }
+</style>
+
+</body>
+</html>
+
